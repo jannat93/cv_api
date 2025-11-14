@@ -7,11 +7,11 @@ from werkzeug.utils import secure_filename
 from sentence_transformers import SentenceTransformer
 import faiss
 from pdfminer.high_level import extract_text
-from nltk.corpus import stopwords
 import nltk
 
-# Download stopwords if not already
-nltk.download('stopwords')
+# Use pre-downloaded NLTK stopwords
+nltk.data.path.append('./nltk_data')
+from nltk.corpus import stopwords
 stop_words = set(stopwords.words("english"))
 
 # ------------------- Init -------------------
@@ -21,8 +21,8 @@ UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# Load small transformer model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+# Load small embedding model
+model = SentenceTransformer("sentence-transformers/paraphrase-MiniLM-L3-v2")
 
 # FAISS index and job storage
 faiss_index = None
